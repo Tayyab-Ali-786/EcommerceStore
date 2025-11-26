@@ -39,25 +39,37 @@ app.post("/addProduct", async (req, res) => {
 })
 
 app.post("/addCart", async (req, res) => {
-  let { userId, products } = req.body;
+  // Accept either: { userId, products: [...] } OR { userId, productId, quantity }
+  let { userId, products, productId, quantity } = req.body;
   let cart = await cartModel.findOne({ userId: userId });
+
   if (!cart) {
+    const initialProducts = Array.isArray(products)
+      ? products
+      : productId
+        ? [{ productId, quantity: Number(quantity) || 1 }]
+        : [];
     cart = new cartModel({
       userId,
-      products,
-    })
+      products: initialProducts,
+    });
   } else {
-    const itemIndex = cart.products.findIndex(
-      (p) => p.productId.toString() === productId
-    );
+    if (productId) {
+      const itemIndex = cart.products.findIndex(
+        (p) => p.productId.toString() === productId
+      );
 
-    if (itemIndex > -1) {
-      cart.products[itemIndex].quantity += quantity;
-    } else {
-      cart.products.push({ productId, quantity });
+      if (itemIndex > -1) {
+        cart.products[itemIndex].quantity += Number(quantity) || 1;
+      } else {
+        cart.products.push({ productId, quantity: Number(quantity) || 1 });
+      }
+    } else if (Array.isArray(products)) {
+      // Replace existing products with provided array
+      cart.products = products;
     }
   }
-  //
+
   await cart.save();
   res.json({ status: "cart updated", data: cart });
 })
@@ -65,14 +77,15 @@ app.post("/addCart", async (req, res) => {
 app.get("/getCart/:userId", async (req, res) => {
   let { userId } = req.params;
   let cart = await cartModel.findOne({ userId: userId }).populate("products.productId");
-  await cart.save();
+  if (!cart) return res.json({ status: "cart not found", data: null });
   res.json({ status: "cart fetched", data: cart });
 })
+
 app.delete("/deleteCart/:userId", async (req, res) => {
   let { userId } = req.params;
-  let cart = await cartModel.findOneAndDelete({ userId: userId });
-  await cart.save();
-  res.json({ status: "cart deleted", data: cart });
+  let deleted = await cartModel.findOneAndDelete({ userId: userId });
+  if (!deleted) return res.json({ status: "cart not found", data: null });
+  res.json({ status: "cart deleted", data: deleted });
 })
 
 app.delete("/cart/:userId/clear", async (req, res) => {
@@ -119,22 +132,24 @@ app.get("/orders/:userId", async (req, res) => {
 
   res.json({ status: "order created", data: newOrder });
 });
+
 app.delete("/order/:userId", async (req, res) => {
   const { userId } = req.params;
 
-  const orders = await orderModel.findOne({ userId });
+  const order = await orderModel.findOne({ userId });
 
-  if (!orders)
+  if (!order)
     return res.json({ status: "orders already empty" });
 
-  orders.products = [];
-  await orders.save();
+  // order documents use `items` (not `products`)
+  order.items = [];
+  await order.save();
 
-  res.json({ status: "cart cleared", data: cart });
+  res.json({ status: "orders cleared", data: order });
 });
 
 
 const PORT = 3000
 app.listen(PORT, () => {
   console.log("chl rha he");
-})
+})``
