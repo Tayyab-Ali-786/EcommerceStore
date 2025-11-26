@@ -9,9 +9,14 @@ const orderModel = require("./models/orderModel");
 const addUser = require("./controllers/UserControllers/addUser");
 const getSingleUser = require("./controllers/UserControllers/getSingleUser")
 const updateUser = require("./controllers/UserControllers/updateUser");
+const deleteUser = require("./controllers/UserControllers/deleteUser");
 
 
 const addProduct = require("./controllers/ProductControllers/addProduct");
+const product = require("./controllers/ProductControllers/getAllProducts");
+const singleProduct = require("./controllers/ProductControllers/getSingleProduct");
+const updatedProduct = require("./controllers/ProductControllers/updateProduct");
+const deletedProduct = require("./controllers/ProductControllers/deleteProduct");
 
 
 const addCart = require("./controllers/CartController/addCart");
@@ -31,16 +36,19 @@ app.use(express.static(__dirname + "/public"));
 app.get("/", (req, res) => {
   res.send("Testing server");
 })
-//user, product, cart, order routes
+
+
 app.route("/addUser").post(addUser);
 app.route("/users/:userid").get(getSingleUser);
 app.route("/users/update/:userid").put(updateUser);
-app.delete("/users/delete/:userid", async (req, res) =>{
-  const userId = req.params.userid;
-}) 
+app.route("/users/delete/:userid").delete(deleteUser);
 
 
 app.route("/addProduct").post(addProduct);
+app.route("/products").get(product);
+app.route("/products/:productId").get(singleProduct);
+app.route("/products/update/:productId").put(updatedProduct);
+app.route("/products/delete/:productId").delete(deletedProduct);
 
 
 app.route("/addCart").post(addCart);
