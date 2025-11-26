@@ -4,12 +4,22 @@ const userModel = require("./models/user");
 const productModel = require("./models/product");
 const cartModel = require("./models/cart");
 const orderModel = require("./models/orderModel");
+
+
 const addUser = require("./controllers/UserControllers/addUser");
+const getSingleUser = require("./controllers/UserControllers/getSingleUser")
+const updateUser = require("./controllers/UserControllers/updateUser");
+
+
 const addProduct = require("./controllers/ProductControllers/addProduct");
+
+
 const addCart = require("./controllers/CartController/addCart");
 const getCart = require("./controllers/CartController/getCart");
 const deleteCart = require("./controllers/CartController/deleteCart");
 const searchCart = require("./controllers/CartController/SearchCart");
+
+
 const searchOrders = require("./controllers/OrderController/searchOrder");
 const searchDeletedOrders = require("./controllers/OrderController/deleteOrder");
 
@@ -23,6 +33,13 @@ app.get("/", (req, res) => {
 })
 //user, product, cart, order routes
 app.route("/addUser").post(addUser);
+app.route("/users/:userid").get(getSingleUser);
+app.route("/users/update/:userid").put(updateUser);
+app.delete("/users/delete/:userid", async (req, res) =>{
+  const userId = req.params.userid;
+}) 
+
+
 app.route("/addProduct").post(addProduct);
 
 
