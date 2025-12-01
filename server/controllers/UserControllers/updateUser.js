@@ -1,4 +1,3 @@
-```
 const userModel = require("../../models/user");
 const ApiResponse = require("../../utils/ApiResponse");
 
@@ -42,4 +41,3 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = updateUser;
-```
