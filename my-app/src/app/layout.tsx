@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import PillNav from "@/components/PillNav";
+import image from "../pictures/image1.jpg"
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
@@ -25,9 +26,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${jetBrainsMono.variable} antialiased`}
       >
-        {children}
+        <header className="custom-nav">
+          <PillNav
+            logo={image.src}
+            logoAlt="Company Logo"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "login", href: "/login" },
+              { label: "Services", href: "/services" },
+              { label: "Contact", href: "/contact" },
+            ]}
+            activeHref="/"
+            className="pillnav-inner"
+            ease="power2.easeOut"
+            baseColor="#000000"
+            pillColor="#ffffff"
+            hoveredPillTextColor="#ffffff"
+            pillTextColor="#000000"
+          />
+        </header>
+
+        <main className="page-content">{children}</main>
       </body>
     </html>
   );
