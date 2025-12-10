@@ -1,5 +1,21 @@
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/ecommerceStore")
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("MongoDB Connection Error:", err));
+
+
 const express = require("express");
+const cors = require("cors");
 const app = express();
+app.use(cors({
+  origin: "http://localhost:3001",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));
 
 const userModel = require("./models/user");
 const productModel = require("./models/product");
@@ -29,9 +45,6 @@ const searchCart = require("./controllers/CartController/SearchCart");
 const searchOrders = require("./controllers/OrderController/searchOrder");
 const searchDeletedOrders = require("./controllers/OrderController/deleteOrder");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"));
 
 
 app.get("/", (req, res) => {

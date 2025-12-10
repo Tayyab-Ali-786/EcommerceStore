@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/ecommerceStore")
-
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -59,17 +57,16 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password before saving
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        return next();
-    }
+userSchema.pre("save", async function () {
+    // 'this' is the document
+    if (!this.isModified("password")) return;
 
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
-        next();
     } catch (error) {
-        next(error);
+        // throw to let mongoose handle the error and reach your controller catch
+        throw error;
     }
 });
 
@@ -90,10 +87,10 @@ userSchema.methods.generateAccessToken = function () {
 // Generate refresh token
 userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
-        { userId: this._id },
-        process.env.JWT_REFRESH_SECRET,
+        { userId: this._id, email: this.email },
+        process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_REFRESH_EXPIRE || "7d" }
     );
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", userSchema);

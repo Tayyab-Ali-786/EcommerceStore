@@ -34,7 +34,7 @@ export default function RootLayout({
             logoAlt="Company Logo"
             items={[
               { label: "Home", href: "/" },
-              { label: "login", href: "/login" },
+              { label: "SignUP", href: "/signup" },
               { label: "Services", href: "/services" },
               { label: "Contact", href: "/contact" },
             ]}

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const user = require("./user");
 const product = require("./product");
-mongoose.connect("mongodb://localhost:27017/ecommerceStore")
 
 const orderSchema = new mongoose.Schema({
     userId: {
