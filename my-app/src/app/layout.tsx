@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Imprima } from "next/font/google";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
-import PillNav from "@/components/PillNav";
-import image from "../pictures/image1.jpg"
-const inter = Inter({
-  variable: "--font-inter",
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -26,29 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetBrainsMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="custom-nav">
-          <PillNav
-            logo={image.src}
-            logoAlt="Company Logo"
-            items={[
-              { label: "Home", href: "/" },
-              { label: "SignUP", href: "/signup" },
-              { label: "Services", href: "/services" },
-              { label: "Contact", href: "/contact" },
-            ]}
-            activeHref="/"
-            className="pillnav-inner"
-            ease="power2.easeOut"
-            baseColor="#000000"
-            pillColor="#ffffff"
-            hoveredPillTextColor="#ffffff"
-            pillTextColor="#000000"
-          />
-        </header>
-
-        <main className="page-content">{children}</main>
+        <Navbar />
+        {children}
       </body>
     </html>
   );
