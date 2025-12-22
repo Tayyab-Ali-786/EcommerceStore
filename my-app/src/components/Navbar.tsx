@@ -15,7 +15,7 @@ export default function Navbar() {
   const categories = ["Men", "Women", "Kids", "Accessories", "Sale"];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-sky-700 to-indigo-800 text-white backdrop-blur-md shadow-xl">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-linear-to-r from-sky-700 to-indigo-800 text-white backdrop-blur-md shadow-xl">
       {/* Increased height -> h-24 */}
       <div className="max-w-7xl mx-auto h-24 flex items-center px-6 sm:px-8 gap-6">
         {/* Left: Logo + Categories */}

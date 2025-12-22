@@ -41,14 +41,17 @@ export default function SignupFormDemo() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/addUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        "https://ecommercestore-backend-4p55.onrender.com/addUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await res.json().catch(() => ({} as any));
 
