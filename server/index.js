@@ -1,4 +1,29 @@
 const mongoose = require("mongoose");
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3001", // local dev
+  "https://my-app-one-inky.vercel.app" // production
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
+  })
+);
+
+// IMPORTANT: handle preflight
+app.options("*", cors());
+
 
 mongoose.connect("mongodb://localhost:27017/ecommerceStore")
   .then(() => console.log("MongoDB Connected"))
@@ -6,13 +31,8 @@ mongoose.connect("mongodb://localhost:27017/ecommerceStore")
 
 
 const express = require("express");
-const cors = require("cors");
 const app = express();
-app.use(cors({
-  origin: "http://localhost:3001",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
