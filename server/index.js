@@ -76,7 +76,5 @@ app.route("/orders/:userId").get(searchOrders);
 app.route("/order/:userId").delete(searchDeletedOrders);
 
 
-const PORT = 3000
-app.listen(PORT, () => {
-  console.log("chl rha he");
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
