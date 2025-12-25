@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import {
   IconBrandGithub,
   IconBrandGoogle,
-  IconBrandOnlyfans,
 } from "@tabler/icons-react";
 
 export default function SignupFormDemo() {
@@ -81,29 +81,37 @@ export default function SignupFormDemo() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md rounded-none border border-zinc-800 bg-white p-4 shadow-input md:rounded-2xl md:p-8 dark:bg-zinc-950">
-      <h2 className="text-xl font-bold text-neutral-800 dark:text-white">
-        Welcome to My Store
+    <div className="mx-auto w-full max-w-md rounded-2xl bg-zinc-950 p-6 md:p-8">
+      <h2 className="text-xl font-bold text-white">
+        Welcome Back
       </h2>
-      <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-400">
-        Create an account to get started with your shopping
+      <p className="mt-2 max-w-sm text-sm text-zinc-400">
+        Enter your details to create your exclusive showroom account.
       </p>
 
       <form className="my-8" onSubmit={handleSubmit}>
         {message && (
-          <div className="mb-4 rounded-md bg-green-900/30 border border-green-800 px-3 py-2 text-sm text-green-400">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-4 rounded-xl bg-green-500/10 border border-green-500/20 px-4 py-3 text-sm text-green-400"
+          >
             {message}
-          </div>
+          </motion.div>
         )}
         {error && (
-          <div className="mb-4 rounded-md bg-red-900/30 border border-red-800 px-3 py-2 text-sm text-red-400">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-4 rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400"
+          >
             {error}
-          </div>
+          </motion.div>
         )}
 
-        <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+        <div className="mb-4 flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
           <LabelInputContainer>
-            <Label htmlFor="firstname" className="dark:text-zinc-300">
+            <Label htmlFor="firstname" className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
               First name
             </Label>
             <Input
@@ -112,11 +120,11 @@ export default function SignupFormDemo() {
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="dark:bg-zinc-900 dark:border-zinc-800 dark:focus:ring-blue-600"
+              className="mt-1 h-11 border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600/50 transition-all rounded-xl"
             />
           </LabelInputContainer>
           <LabelInputContainer>
-            <Label htmlFor="lastname" className="dark:text-zinc-300">
+            <Label htmlFor="lastname" className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
               Last name
             </Label>
             <Input
@@ -125,25 +133,27 @@ export default function SignupFormDemo() {
               type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="dark:bg-zinc-900 dark:border-zinc-800 dark:focus:ring-blue-600"
+              className="mt-1 h-11 border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600/50 transition-all rounded-xl"
             />
           </LabelInputContainer>
         </div>
+        
         <LabelInputContainer className="mb-4">
-          <Label htmlFor="email" className="dark:text-zinc-300">
+          <Label htmlFor="email" className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
             Email Address
           </Label>
           <Input
             id="email"
-            placeholder="projectmayhem@fc.com"
+            placeholder="hello@example.com"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="dark:bg-zinc-900 dark:border-zinc-800 dark:focus:ring-blue-600"
+            className="mt-1 h-11 border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600/50 transition-all rounded-xl"
           />
         </LabelInputContainer>
+        
         <LabelInputContainer className="mb-4">
-          <Label htmlFor="password" className="dark:text-zinc-300">
+          <Label htmlFor="password" className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
             Password
           </Label>
           <Input
@@ -152,68 +162,56 @@ export default function SignupFormDemo() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="dark:bg-zinc-900 dark:border-zinc-800 dark:focus:ring-blue-600"
+            className="mt-1 h-11 border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600/50 transition-all rounded-xl"
           />
         </LabelInputContainer>
+        
         <LabelInputContainer className="mb-8">
-          <Label htmlFor="twitterpassword" className="dark:text-zinc-300">
+          <Label htmlFor="phone" className="text-zinc-400 text-xs font-medium uppercase tracking-wider">
             Phone (optional)
           </Label>
           <Input
-            id="twitterpassword"
-            placeholder="+1 555 555 5555"
+            id="phone"
+            placeholder="+1 (555) 000-0000"
             type="text"
             value={twitterPassword}
             onChange={(e) => setTwitterPassword(e.target.value)}
-            className="dark:bg-zinc-900 dark:border-zinc-800 dark:focus:ring-blue-600"
+            className="mt-1 h-11 border-zinc-800 bg-zinc-900 text-white placeholder:text-zinc-600 focus:ring-2 focus:ring-blue-600/50 focus:border-blue-600/50 transition-all rounded-xl"
           />
         </LabelInputContainer>
 
-        {/* --- UPDATED BUTTON TO MATCH NAVBAR COLORS --- */}
         <button
-          className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] transition-all hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="group/btn relative h-12 w-full overflow-hidden rounded-xl bg-white font-semibold text-zinc-950 transition-all hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50"
           type="submit"
           disabled={loading}
         >
-          {loading ? "Creating account..." : "Sign up →"}
+          {loading ? "Initializing..." : "Create Account"}
           <BottomGradient />
         </button>
 
-        <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+        <div className="relative my-8">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-zinc-800" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-zinc-950 px-2 text-zinc-500">Or continue with</span>
+          </div>
+        </div>
 
-        <div className="flex flex-col space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           <button
-            className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:text-white dark:shadow-[0px_0px_1px_1px_#262626]"
+            className="flex h-11 items-center justify-center space-x-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-sm font-medium text-white transition-all hover:bg-zinc-800"
             type="button"
-            onClick={() => console.log("GitHub flow placeholder")}
           >
-            <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              GitHub
-            </span>
-            <BottomGradient />
+            <IconBrandGithub className="h-4 w-4" />
+            <span>GitHub</span>
           </button>
           <button
-            className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:text-white dark:shadow-[0px_0px_1px_1px_#262626]"
+            className="flex h-11 items-center justify-center space-x-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 text-sm font-medium text-white transition-all hover:bg-zinc-800"
             type="button"
-            onClick={() => console.log("Google flow placeholder")}
           >
-            <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              Google
-            </span>
-            <BottomGradient />
-          </button>
-          <button
-            className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:text-white dark:shadow-[0px_0px_1px_1px_#262626]"
-            type="button"
-            onClick={() => console.log("OnlyFans flow placeholder")}
-          >
-            <IconBrandOnlyfans className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-sm text-neutral-700 dark:text-neutral-300">
-              OnlyFans
-            </span>
-            <BottomGradient />
+            <IconBrandGoogle className="h-4 w-4" />
+            <span>Google</span>
           </button>
         </div>
       </form>
