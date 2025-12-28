@@ -1,9 +1,12 @@
-import React from 'react'
+"use client";
 
-export default function login() {
+import React from 'react';
+import LoginComponent from '@/components/loginComponent';
+
+export default function Page() {
   return (
     <div>
-      this is login page
+      <LoginComponent />
     </div>
-  )
+  );
 }
