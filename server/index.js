@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -5,6 +6,7 @@ const cors = require("cors");
 const app = express();
 
 const allowedOrigins = [
+  "http://localhost:3000",
   "http://localhost:3001",
   "https://my-app-one-inky.vercel.app"
 ];
@@ -28,10 +30,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log("MongoDB Connection Error:", err));
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI;
+
+if (!MONGO_URI) {
+  console.error("FATAL ERROR: MONGO_URI or MONGODB_URI is not defined in environment variables.");
+} else {
+  mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log("MongoDB Connected successfully"))
+    .catch(err => {
+      console.error("MongoDB Connection Error Details:");
+      console.error(err);
+    });
+}
 
 // routes
 app.get("/", (req, res) => res.send("Testing server"));
