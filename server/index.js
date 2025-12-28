@@ -44,6 +44,17 @@ if (!MONGO_URI) {
     });
 }
 
+// Middleware to check database connection status
+app.use((req, res, next) => {
+  if (mongoose.connection.readyState !== 1 && req.path !== '/') {
+    return res.status(503).json({
+      success: false,
+      message: "Database connection is not established. Please check IP whitelisting in MongoDB Atlas and environment variables on Render."
+    });
+  }
+  next();
+});
+
 // routes
 app.get("/", (req, res) => res.send("Testing server"));
 
