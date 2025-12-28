@@ -1,20 +1,31 @@
+const productModel = require("../../models/product");
+const ApiResponse = require("../../utils/ApiResponse");
+
 const updatedProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
-        const product = await productModel.findOne({ _id: productId });
+        const { title, price, description, category, stock, imageUrl } = req.body;
+
+        const product = await productModel.findByIdAndUpdate(
+            productId,
+            { title, price, description, category, stock, imageUrl },
+            { new: true, runValidators: true }
+        );
+
         if (!product) {
-            return res.status(404).json({ status: "product not found" });
+            return res.status(404).json(
+                new ApiResponse(404, null, "Product not found.")
+            );
         }
-        const { title, price, description, category } = req.body;
-        if (title) product.title = title;
-        if (price) product.price = price;
-        if (description) product.description = description;
-        if (category) product.category = category;
-        await product.save();
-        res.json({ status: "product updated", data: product });
+
+        return res.status(200).json(
+            new ApiResponse(200, product, "Product updated successfully.")
+        );
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ status: "error updating product", error: error.message });
+        console.error("UpdateProduct Error:", error);
+        return res.status(500).json(
+            new ApiResponse(500, null, error.message || "Error updating product.")
+        );
     }
 }
 

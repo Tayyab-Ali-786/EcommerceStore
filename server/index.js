@@ -55,19 +55,23 @@ app.use((req, res, next) => {
   next();
 });
 
+const auth = require("./middlewares/auth");
+const adminAuth = require("./middlewares/adminAuth");
+
 // routes
 app.get("/", (req, res) => res.send("Testing server"));
 
+app.route("/login").post(require("./controllers/UserControllers/login"));
 app.route("/addUser").post(require("./controllers/UserControllers/addUser"));
 app.route("/users/:userid").get(require("./controllers/UserControllers/getSingleUser"));
 app.route("/users/update/:userid").put(require("./controllers/UserControllers/updateUser"));
 app.route("/users/delete/:userid").delete(require("./controllers/UserControllers/deleteUser"));
 
-app.route("/addProduct").post(require("./controllers/ProductControllers/addProduct"));
+app.route("/addProduct").post(auth, adminAuth, require("./controllers/ProductControllers/addProduct"));
 app.route("/products").get(require("./controllers/ProductControllers/getAllProducts"));
 app.route("/products/:productId").get(require("./controllers/ProductControllers/getSingleProduct"));
-app.route("/products/update/:productId").put(require("./controllers/ProductControllers/updateProduct"));
-app.route("/products/delete/:productId").delete(require("./controllers/ProductControllers/deleteProduct"));
+app.route("/products/update/:productId").put(auth, adminAuth, require("./controllers/ProductControllers/updateProduct"));
+app.route("/products/delete/:productId").delete(auth, adminAuth, require("./controllers/ProductControllers/deleteProduct"));
 
 app.route("/addCart").post(require("./controllers/CartController/addCart"));
 app.route("/getCart/:userId").get(require("./controllers/CartController/getCart"));
